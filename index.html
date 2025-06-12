@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 Date Utilities - Developer Tools</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 Date Utilities</h1>
+            <p>A developer-friendly collection of date and timezone tools</p>
+            <div class="header-actions">
+                <a href="https://github.com/jajera/dateview" target="_blank" class="github-link"
+                    aria-label="View on GitHub">
+                    GitHub
+                </a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Current Time Display -->
+            <section class="current-time">
+                <div class="current-time-display">
+                    <div class="time-large" id="current-time"></div>
+                    <div class="date-info" id="current-date-info"></div>
+                </div>
+            </section>
+
+            <!-- Date Info & Calculations -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>📆 Date Info & Calculations</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="input-group">
+                            <label for="date-input">Select Date:</label>
+                            <input type="date" id="date-input" class="date-input">
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <label>Day of Year:</label>
+                                <span id="day-of-year" class="result-value copyable">-</span>
+                            </div>
+                            <div class="result-item">
+                                <label>ISO Week Number:</label>
+                                <span id="week-number" class="result-value copyable">-</span>
+                            </div>
+                            <div class="result-item">
+                                <label>Days Since Epoch:</label>
+                                <span id="days-since-epoch" class="result-value copyable">-</span>
+                            </div>
+                            <div class="result-item">
+                                <label>Is Leap Year:</label>
+                                <span id="leap-year" class="result-value">-</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="target-date">Days Until/Since:</label>
+                            <input type="date" id="target-date" class="date-input">
+                            <span id="days-difference" class="result-value">Select target date</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timezone Tools -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>🌐 Timezone Tools</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="timezone-selectors">
+                            <div class="timezone-group">
+                                <label for="timezone1">UTC Time:</label>
+                                <select id="timezone1" class="timezone-select">
+                                    <option value="UTC" selected>UTC</option>
+                                </select>
+                                <div class="timezone-time" id="timezone1-time">-</div>
+                            </div>
+                            <div class="timezone-group">
+                                <label for="timezone2">US Eastern:</label>
+                                <select id="timezone2" class="timezone-select">
+                                    <option value="America/New_York" selected>America/New York</option>
+                                </select>
+                                <div class="timezone-time" id="timezone2-time">-</div>
+                            </div>
+                            <div class="timezone-group">
+                                <label for="timezone3">Asia/Tokyo:</label>
+                                <select id="timezone3" class="timezone-select">
+                                    <option value="Asia/Tokyo" selected>Asia/Tokyo</option>
+                                </select>
+                                <div class="timezone-time" id="timezone3-time">-</div>
+                            </div>
+                        </div>
+
+                        <div class="time-converter">
+                            <h3>Time Converter</h3>
+                            <div class="converter-row">
+                                <input type="time" id="convert-time" class="time-input">
+                                <select id="from-timezone" class="timezone-select">
+                                    <option value="UTC" selected>UTC</option>
+                                </select>
+                                <span class="arrow">→</span>
+                                <select id="to-timezone" class="timezone-select">
+                                    <option value="America/New_York" selected>America/New York</option>
+                                </select>
+                                <span id="converted-time" class="result-value copyable">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Date Manipulation -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>🔁 Date Manipulation</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="manipulation-group">
+                            <h3>Add/Subtract Days</h3>
+                            <div class="input-row">
+                                <input type="date" id="manipulation-date" class="date-input">
+                                <input type="number" id="days-to-add" class="number-input" placeholder="Days (+/-)">
+                                <span id="manipulation-result" class="result-value copyable">-</span>
+                            </div>
+                        </div>
+
+                        <div class="manipulation-group">
+                            <h3>Business Days Calculator</h3>
+                            <div class="input-row">
+                                <input type="date" id="business-start" class="date-input" placeholder="Start date">
+                                <input type="date" id="business-end" class="date-input" placeholder="End date">
+                                <span id="business-days" class="result-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day Table View -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>📅 Day Table View</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-controls">
+                            <div class="control-group">
+                                <label for="table-year">Year:</label>
+                                <input type="number" id="table-year" class="year-input" min="1900" max="2100">
+                                <button id="current-year-btn" class="control-btn">Current Year</button>
+                                <button id="prev-year-btn" class="control-btn">◀ Prev</button>
+                                <button id="next-year-btn" class="control-btn">Next ▶</button>
+                            </div>
+                            <div class="control-group">
+                                <label class="leap-year-indicator" id="leap-year-indicator">Regular Year</label>
+                            </div>
+                            <div class="control-group">
+                                <label for="view-mode">View:</label>
+                                <select id="view-mode" class="view-select">
+                                    <option value="year-grid">Year Grid</option>
+                                    <option value="month-calendar">Month Calendar</option>
+                                    <option value="compact-table">Compact Table</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <button id="download-csv-btn" class="control-btn">📄 CSV</button>
+                                <button id="download-image-btn" class="control-btn">🖼️ Image</button>
+                            </div>
+                        </div>
+
+                        <!-- Month Navigation for Calendar View -->
+                        <div id="month-nav" class="month-navigation" style="display: none;">
+                            <button id="prev-month-btn" class="nav-btn">◀</button>
+                            <select id="month-select" class="month-select">
+                                <option value="0">January</option>
+                                <option value="1">February</option>
+                                <option value="2">March</option>
+                                <option value="3">April</option>
+                                <option value="4">May</option>
+                                <option value="5">June</option>
+                                <option value="6">July</option>
+                                <option value="7">August</option>
+                                <option value="8">September</option>
+                                <option value="9">October</option>
+                                <option value="10">November</option>
+                                <option value="11">December</option>
+                            </select>
+                            <button id="next-month-btn" class="nav-btn">▶</button>
+                        </div>
+
+                        <div class="view-container">
+                            <div class="table-legend">
+                                <span class="legend-item">
+                                    <span class="legend-color today"></span>
+                                    Today
+                                </span>
+                                <span class="legend-item">
+                                    <span class="legend-color weekend"></span>
+                                    Weekend
+                                </span>
+                                <span class="legend-item">
+                                    <span class="legend-color leap-day"></span>
+                                    Leap Day
+                                </span>
+                                <span class="legend-item">
+                                    <span class="legend-color quarter-start"></span>
+                                    Quarter Start
+                                </span>
+                            </div>
+
+                            <div class="view-info">
+                                <span id="view-description">Click any date to see details and copy</span>
+                            </div>
+
+                            <div id="display-container" class="display-container">
+                                <!-- Different views will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Date Range Calculator -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>📊 Date Range Calculator</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="range-calculator">
+                            <div class="range-inputs">
+                                <div class="input-group">
+                                    <label for="range-start">Start Date:</label>
+                                    <input type="date" id="range-start" class="date-input">
+                                </div>
+                                <div class="input-group">
+                                    <label for="range-end">End Date:</label>
+                                    <input type="date" id="range-end" class="date-input">
+                                </div>
+                                <button id="set-current-range" class="control-btn">Use Current Month</button>
+                            </div>
+
+                            <div class="range-results">
+                                <div class="range-summary">
+                                    <h3>Summary</h3>
+                                    <div class="result-grid">
+                                        <div class="result-item">
+                                            <label>Total Days:</label>
+                                            <span id="total-days" class="result-value copyable">-</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>Business Days:</label>
+                                            <span id="business-days-range" class="result-value copyable">-</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>Weekends:</label>
+                                            <span id="weekend-days" class="result-value copyable">-</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>Full Weeks:</label>
+                                            <span id="full-weeks" class="result-value copyable">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="range-breakdown">
+                                    <h3>Monthly Breakdown</h3>
+                                    <div id="monthly-breakdown" class="breakdown-grid">
+                                        <!-- Populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Developer Tools -->
+            <section class="feature-section">
+                <div class="feature-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h2>🧰 Developer Tools</h2>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="dev-tool-group">
+                            <h3>Unix Timestamp Converter</h3>
+                            <div class="input-row">
+                                <input type="number" id="timestamp-input" class="timestamp-input"
+                                    placeholder="Unix timestamp">
+                                <span id="timestamp-human" class="result-value copyable">-</span>
+                            </div>
+                            <div class="input-row">
+                                <input type="datetime-local" id="datetime-input" class="datetime-input">
+                                <span id="datetime-timestamp" class="result-value copyable">-</span>
+                            </div>
+                        </div>
+
+                        <div class="dev-tool-group">
+                            <h3>Date Format Copier</h3>
+                            <div class="format-grid" id="format-grid">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="dev-tool-group">
+                            <h3>Date String Parser</h3>
+                            <div class="input-row">
+                                <input type="text" id="parse-input" class="text-input"
+                                    placeholder="Enter date string to parse">
+                                <div id="parse-result" class="parse-result">
+                                    <div class="parse-status">Ready to parse</div>
+                                    <div class="parse-details"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Built with ❤️ for developers | Static & GitHub Pages compatible</p>
+            <p>No data is sent to servers - everything runs in your browser</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
